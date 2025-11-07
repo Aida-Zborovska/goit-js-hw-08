@@ -72,14 +72,12 @@ function imageTemplate(image) {
         <img
           class="gallery-image"
           src="${image.preview}"
-          data-source="${image.original}
+          data-source="${image.original}"
           alt="${image.description}"
         />
       </a>
     </li>`;
-} // додати заборону завантаження зображення =======================================
-// ==============================================================================
-// ============================================================================
+}
 
 function imagesTemplate(images) {
   return images.map(imageTemplate).join("");
@@ -88,4 +86,16 @@ function imagesTemplate(images) {
 document.addEventListener("DOMContentLoaded", () => {
   const markup = imagesTemplate(images);
   gallery.innerHTML = markup;
+});
+
+gallery.addEventListener("click", (e) => {
+  e.preventDefault();
+  const image = e.target.closest("img");
+  if (image) {
+    const src = image.dataset.source;
+    const instance = basicLightbox.create(`
+    <img src="${src.toString()}" width="800" height="600">
+`);
+    instance.show();
+  }
 });
